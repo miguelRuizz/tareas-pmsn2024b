@@ -30,4 +30,23 @@ class ThemeSettings {
       )
     );
   }
+
+  // Tema personalizable basado en los valores que el usuario selecciona
+  static ThemeData customTheme({
+    required Color primaryColor,
+    required Color scaffoldBackgroundColor,
+    required Color textColor,
+    required String fontFamily,
+  }) {
+    final theme = ThemeData.light();
+    return theme.copyWith(
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
+      appBarTheme: AppBarTheme(color: scaffoldBackgroundColor),
+      textTheme: theme.textTheme.apply(
+        bodyColor: textColor,
+        fontFamily: fontFamily,
+      ),
+    );
+  }
 }

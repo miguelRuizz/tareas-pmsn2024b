@@ -24,22 +24,24 @@ class MoviesDatabase {
       path,
       version: VERSIONDB,
       onCreate: (db, version) {
-        String query = '''
+        String query1 = '''
         CREATE TABLE tblgenre(
           idGenre CHAR(1) PRIMARY KEY,
           dscgenre VARCHAR(50)
         );
-
+        ''';
+        db.execute(query1);
+        String query2 = '''
         CREATE TABLE tblmovies(
           idMovie INTEGER PRIMARY KEY,
           nameMovie VARCHAR(100),
           overview TEXT,
           idGenre CHAR(1),
           imgMovie VARCHAR(150),
-          releaseDate CHAR(10)
+          releaseDate CHAR(10),
           CONSTRAINT fk_movie_genre FOREIGN KEY (idGenre) REFERENCES tblgenre (idGenre)
         );''';
-        db.execute(query);
+        db.execute(query2);
       },
     );
   } // initDatabase

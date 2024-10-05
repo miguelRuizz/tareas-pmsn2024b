@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+
     final btnLogin = Positioned(
       bottom: 40,
       width: MediaQuery.of(context).size.width * .9,
@@ -51,10 +53,33 @@ class _LoginScreenState extends State<LoginScreen> {
             ).then((value) => {
               isLoading = false,
               setState(() {}),
-              Navigator.pushNamed(context, "/home"),
+              Navigator.pushNamed(context, "/pr3-responsive"),
             });
           },
-          child: const Text('Valider l\'utilisateur')),
+          child: const Text('Ingresar')),
+    );
+
+    final btnYakult = Positioned(
+      top: 10,
+      right: 5,
+      width: MediaQuery.of(context).size.width * .25,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 215, 137, 207),
+            foregroundColor: Colors.white, // Azul oscuro
+          ),
+          onPressed: () {
+            isLoading = true;
+            setState(() {});
+            Future.delayed(
+              const Duration(milliseconds: 4000)
+            ).then((value) => {
+              isLoading = false,
+              setState(() {}),
+              Navigator.pushNamed(context, "/yakult"),
+            });
+          },
+          child: const Text('Ver Yakult')),
     );
 
     final gifLoading = Positioned(
@@ -62,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: SizedBox(
         width: 250,  // Ancho deseado
         height: 250, // Altura deseada
-        child: Image.asset('assets/orangutangif.gif'),
+        child: Lottie.asset('assets/lottie/TecNMLoading.json'),//Image.asset('assets/orangutangif.gif'),
       ),
     );
 
@@ -87,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage('assets/monkey1.jpg'))),
+                fit: BoxFit.cover, image: AssetImage('assets/borneorainforest.jpg'))),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -100,6 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ctnCredentials,
             btnLogin,
+            btnYakult,
             isLoading ? gifLoading : Container()
           ],
         ),

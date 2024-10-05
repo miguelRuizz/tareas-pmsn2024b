@@ -4,6 +4,9 @@ import 'package:pmsn2024b/screens/coffeeChallenge/yakult_screen.dart';
 import 'package:pmsn2024b/screens/components/camera_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
+import 'package:pmsn2024b/screens/movies_screen.dart';
+import 'package:pmsn2024b/screens/popular_screen.dart';
+import 'package:pmsn2024b/screens/pr3-responsive/onboarding_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
@@ -32,6 +35,10 @@ class MyApp extends StatelessWidget {
             "/home" : (context) => HomeScreen(),
             "/profile" : (context) => ProfileScreen(),
             "/camera" : (context) => CameraScreen(),
+            "/yakult" : (context) => YakultScreen(),
+            "/db": (context) => MoviesScreen(),
+            "/pr3-responsive": (context) => OnboardingScreen(),
+            "/popmovies": (context) => PopularScreen(),
           },
         );
       }

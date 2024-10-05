@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Drawer(),
+      drawer: myDrawer(),
       body: IndexedStack(
         index: index,
         children: [
@@ -91,16 +91,48 @@ class _HomeScreenState extends State<HomeScreen> {
         type: ExpandableFabType.up,
         children: [
           FloatingActionButton.small(
+            heroTag: "btn1",
             onPressed: () {
               GlobalValues.flagDarkTheme.value = false;
             },
             child: Icon(Icons.light_mode),
           ),
           FloatingActionButton.small(
+            heroTag: "btn2",
             onPressed: () {
               GlobalValues.flagDarkTheme.value = true;
             },
             child: Icon(Icons.dark_mode),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget myDrawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage('https://inaturalist-open-data.s3.amazonaws.com/photos/102241209/original.jpg'),
+            ),
+            accountName: Text('Pan Troglodytes'), 
+            accountEmail: Text('pantroglodytes@itcelaya.edu.mx')
+          ),
+          ListTile(
+            onTap: () => Navigator.pushNamed(context, '/db'),
+            title: Text('Movies List'),
+            subtitle: Text('CR7'),
+            leading: Icon(Icons.movie),
+            trailing: Icon(Icons.chevron_right),
+          ),
+          ListTile(
+            onTap: () => Navigator.pushNamed(context, '/popmovies'),
+            title: Text('Popular Movies'),
+            subtitle: Text('Messi'),
+            leading: Icon(Icons.movie),
+            trailing: Icon(Icons.chevron_right),
           ),
         ],
       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "718945631165",
+    "project_id": "pmsn2024-miguelruiz",
+    "storage_bucket": "pmsn2024-miguelruiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718945631165:android:0b3f2d23f52241c78070d4",
+        "android_client_info": {
+          "package_name": "com.example.pmsn2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9shiZN85emGeO12s-ME4LKaROGS3e6xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

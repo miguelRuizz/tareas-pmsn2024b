@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeSettings {
   static ThemeData lightTheme(){
@@ -35,17 +36,17 @@ class ThemeSettings {
   static ThemeData customTheme({
     required Color primaryColor,
     required Color scaffoldBackgroundColor,
-    required Color textColor,
+    //required Color textColor,
     required String fontFamily,
+    required ThemeData baseTheme,
   }) {
-    final theme = ThemeData.light();
-    return theme.copyWith(
+    return baseTheme.copyWith(
       primaryColor: primaryColor,
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       appBarTheme: AppBarTheme(color: scaffoldBackgroundColor),
-      textTheme: theme.textTheme.apply(
-        bodyColor: textColor,
-        fontFamily: fontFamily,
+      textTheme: baseTheme.textTheme.apply(
+        //bodyColor: textColor,
+        fontFamily: GoogleFonts.getFont(fontFamily).fontFamily,
       ),
     );
   }

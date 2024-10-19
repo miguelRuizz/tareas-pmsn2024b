@@ -17,9 +17,7 @@ List<OnboardingContent> contents = [
   OnboardingContent(
     image: "assets/orangutanimgs/flyingorangutan.png",
     title: "Elige un tema",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit "
-    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+    description: ""
   ),
   OnboardingContent(
     image: "assets/orangutanimgs/babyorangutan.png",

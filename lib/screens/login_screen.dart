@@ -39,7 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final btnLogin = Positioned(
       bottom: 40,
-      width: MediaQuery.of(context).size.width * .9,
+      left: 30,
+      width: MediaQuery.of(context).size.width * .4,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 177, 47, 0),
@@ -125,11 +126,37 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             ctnCredentials,
             btnLogin,
+            btnRegister(),
             btnYakult,
             isLoading ? gifLoading : Container()
           ],
         ),
       ),
+    );
+  }
+
+  Widget btnRegister(){
+    return Positioned(
+      bottom: 40,
+      right: 30,
+      width: MediaQuery.of(context).size.width * .4,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 215, 137, 207),
+            foregroundColor: Colors.white, // Azul oscuro
+          ),
+          onPressed: () {
+            isLoading = true;
+            setState(() {});
+            Future.delayed(
+              const Duration(milliseconds: 4000)
+            ).then((value) => {
+              isLoading = false,
+              setState(() {}),
+              Navigator.pushNamed(context, "/register"),
+            });
+          },
+          child: const Text('Registrarse')),
     );
   }
 }

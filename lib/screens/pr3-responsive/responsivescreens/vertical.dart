@@ -1,15 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pmsn2024b/screens/components/colorpicker.dart';
 import 'package:pmsn2024b/screens/components/colors_slider.dart';
 import 'package:pmsn2024b/screens/pr3-responsive/content_model.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class Vertical extends StatefulWidget {
-  Vertical({super.key, required this.content, this.index});
+  Vertical({super.key,
+   required this.content,
+   this.index, 
+   required this.onBgColorChange, 
+   required this.onPrColorChange,
+   required this.onFontChange,
+   this.currentFont,
+   required this.resetColors,
+   this.currentBgColor,
+   this.currentPrColor,
+  });
 
   OnboardingContent content;
   int? index;
+  Function(Color) onBgColorChange;
+  Function(Color) onPrColorChange;
+  Function(String) onFontChange;
+  String? currentFont;
+  Color? currentBgColor;
+  Color? currentPrColor;
+  VoidCallback resetColors;
 
   @override
   State<Vertical> createState() => _VerticalState();
@@ -17,24 +37,11 @@ class Vertical extends StatefulWidget {
 
 class _VerticalState extends State<Vertical> {
   
+  final List<String> fonts = ['Roboto', 'Lobster', 'Poppins', 'Pacifico', 'Oswald'];
 
   @override
   Widget build(BuildContext context) {
-    Color currentColor = Theme.of(context).scaffoldBackgroundColor;
     List<Color> colorHistory = [];
-
-    void changeBgColor(Color color) => setState(() { /*currentColor = color*/ 
-      GlobalValues.flagCustomTheme.value = true;
-      Theme.of(context).copyWith(
-        scaffoldBackgroundColor: color,
-      );
-    });
-    void changePrColor(Color color) => setState(() { /*currentColor = color*/ 
-      GlobalValues.flagCustomTheme.value = true;
-      Theme.of(context).copyWith(
-        primaryColor: color,
-      );
-    });
     
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
@@ -45,7 +52,7 @@ class _VerticalState extends State<Vertical> {
         children: [
           Image.asset(
             widget.content.image!,
-            height: currentHeight * .4,
+            height: currentHeight * .35,
             width: currentWidth * 2,
             // height: currentHeight * .1,
             // width: currentWidth * 1,
@@ -53,7 +60,8 @@ class _VerticalState extends State<Vertical> {
           Text(
             widget.content.title!,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: GoogleFonts.getFont(
+              widget.currentFont != null ? widget.currentFont! : 'Roboto',
               fontSize: 32,
               fontWeight: FontWeight.bold,
             ),
@@ -72,6 +80,8 @@ class _VerticalState extends State<Vertical> {
                         child: TextButton(
                           onPressed: () {
                             GlobalValues.flagDarkTheme.value = false;
+                            GlobalValues.flagCustomTheme.value = 0;
+                            widget.resetColors();
                           },
                           child: Icon(Icons.light_mode),
                           style: TextButton.styleFrom(
@@ -92,6 +102,8 @@ class _VerticalState extends State<Vertical> {
                         child: TextButton(
                           onPressed: () {
                             GlobalValues.flagDarkTheme.value = true;
+                            GlobalValues.flagCustomTheme.value = 0;
+                            widget.resetColors();
                           },
                           child: Icon(Icons.dark_mode),
                           style: TextButton.styleFrom(
@@ -107,20 +119,92 @@ class _VerticalState extends State<Vertical> {
                     ],
                   ),
                   SizedBox(height: 10,),
-                  ColorsSlider(
-                    pickerColor: Theme.of(context).scaffoldBackgroundColor,
-                    onColorChanged: changeBgColor,
-                    buttonTxt: 'Color de Fondo',
-                    colorHistory: colorHistory,
-                    onHistoryChanged: (List<Color> colors) => colorHistory = colors,
+                  Text(
+                    'Tema personalizado',
+                    style: GoogleFonts.getFont(
+                      widget.currentFont != null ? widget.currentFont! : 'Roboto',
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold
+                    )
                   ),
-                  ColorsSlider(
-                    pickerColor: Theme.of(context).primaryColor,
-                    onColorChanged: changePrColor,
-                    buttonTxt: 'Color Primario',
-                    colorHistory: colorHistory,
-                    onHistoryChanged: (List<Color> colors) => colorHistory = colors,
-                  )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          ColorsSlider(
+                            pickerColor: Theme.of(context).scaffoldBackgroundColor,
+                            onColorChanged: widget.onBgColorChange,
+                            buttonTxt: 'Fondo',
+                            buttonWidth: MediaQuery.of(context).size.width * .35,
+                            colorHistory: colorHistory,
+                            onHistoryChanged: (List<Color> colors) => colorHistory = colors,
+                            currentFont: widget.currentFont != null ? widget.currentFont! : 'Roboto',
+                          ),
+                          ColorsSlider(
+                            pickerColor: Theme.of(context).primaryColor,
+                            onColorChanged: widget.onPrColorChange,
+                            buttonTxt: 'Primario',
+                            buttonWidth: MediaQuery.of(context).size.width * .35,
+                            colorHistory: colorHistory,
+                            onHistoryChanged: (List<Color> colors) => colorHistory = colors,
+                            currentFont: widget.currentFont != null ? widget.currentFont! : 'Roboto',
+                          ),
+                          SizedBox(height: 5),
+                          dropDownBtn(),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Container(
+                            width: currentWidth * .3,
+                            child: TextButton(
+                              onPressed: () {
+                                if(widget.currentBgColor != null || widget.currentPrColor != null || widget.currentFont != 'Roboto'){
+                                print('Fuente actual $widget.currentFont');
+                                GlobalValues.flagCustomTheme.value++;
+                                GlobalValues.flagDarkTheme.value = false;
+                                GlobalValues.customPrimaryColor.value = Theme.of(context).primaryColor;
+                                GlobalValues.customScaffoldBackgroundColor.value = Theme.of(context).scaffoldBackgroundColor;
+                                GlobalValues.customFontFamily.value = widget.currentFont != null ? widget.currentFont! : 'Roboto';
+                                QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.success,
+                                  text: '¡Tema guardado con éxito!',
+                                  autoCloseDuration: const Duration(seconds: 4),
+                                );
+                                } else { // Ambas son nulas
+                                  QuickAlert.show(
+                                    context: context,
+                                    type: QuickAlertType.warning,
+                                    text: 'Elige al menos un color personalizado',
+                                    autoCloseDuration: const Duration(seconds: 4),
+                                    showConfirmBtn: true
+                                  );
+                                }
+                              },
+                              child: Text(
+                                'Aplicar',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.getFont(
+                                  widget.currentFont != null ? widget.currentFont! : 'Roboto',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).primaryColor, // Color de fondo
+                                foregroundColor: Colors.white,//Theme.of(context).textTheme.bodyMedium!.color, // Color del texto
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            ),        
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
             )
@@ -128,10 +212,46 @@ class _VerticalState extends State<Vertical> {
             Text(
               widget.content.description!,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: GoogleFonts.getFont(
+                widget.currentFont != null ? widget.currentFont! : 'Roboto',
+                fontSize: 16,
+                //color: Colors.grey
+              ),
             )
         ],
       ),
+    );
+  }
+
+  Widget dropDownBtn(){
+    return Container(
+      width: MediaQuery.of(context).size.width * .35,
+      child: DecoratedBox(
+        decoration: BoxDecoration( 
+          color: Theme.of(context).primaryColor, //background color of dropdown button
+          borderRadius: BorderRadius.circular(50), //border raiuds of dropdown button
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 13),
+          child: DropdownButton<String>(
+              value: widget.currentFont,
+              underline: SizedBox(),
+              dropdownColor: Theme.of(context).primaryColor,
+              items: fonts.map((String font) {
+                return DropdownMenuItem<String>(
+                  value: font,
+                  child: Text(
+                    font,
+                    style: GoogleFonts.getFont(font), // Aplicar fuente de muestra
+                  ),
+                );
+              }).toList(),
+              onChanged: (String? newFont) {
+                widget.onFontChange(newFont!);
+              },
+            ),
+        ),
+        ),
     );
   }
 }

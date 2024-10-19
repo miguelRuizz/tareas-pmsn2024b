@@ -2,11 +2,13 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:pmsn2024b/main.dart';
+import 'package:pmsn2024b/provider/test_provider.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/screens/start_screen.dart';
 import 'package:pmsn2024b/settings/colors_settings.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -23,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TestProvider testProvider = Provider.of<TestProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorsSettings.navColor,
@@ -37,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: myDrawer(),
+      drawer: myDrawer(testProvider),
       body: IndexedStack(
         index: index,
         children: [
@@ -109,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget myDrawer() {
+  Widget myDrawer(TestProvider testProvider) {
     return Drawer(
       child: ListView(
         children: [
@@ -117,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage('https://inaturalist-open-data.s3.amazonaws.com/photos/102241209/original.jpg'),
             ),
-            accountName: Text('Pan Troglodytes'), 
+            accountName: Text(testProvider.name), 
             accountEmail: Text('pantroglodytes@itcelaya.edu.mx')
           ),
           ListTile(

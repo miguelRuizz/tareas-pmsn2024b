@@ -14,9 +14,11 @@ import 'package:pmsn2024b/screens/popular_screen.dart';
 import 'package:pmsn2024b/screens/pr3-responsive/onboarding_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
 import 'package:pmsn2024b/screens/register_screen.dart';
+import 'package:pmsn2024b/services/preference_service.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/settings/theme_settings.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //late CameraDescription firstCamera;
 Future<void> main() async {
@@ -25,6 +27,13 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform
   );
   await GlobalValues.initialize();
+  // Cargar configuraciones de tema almacenadas en SharedPreferences
+  final PreferenceService _preferenceService = PreferenceService();
+  await _preferenceService.loadThemeSettings();
+  bool? isDarkTheme = await _preferenceService.getIfDarkTheme() ?? false;
+  bool? isCustomTheme = await _preferenceService.getIfCustomTheme() ?? false;
+  GlobalValues.flagDarkTheme.value = isDarkTheme;
+  GlobalValues.flagCustomTheme.value = isCustomTheme ? 1 : 0;
   runApp(MyApp());
 }
 
@@ -33,6 +42,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PreferenceService _preferenceService = PreferenceService();
+
     return ValueListenableBuilder2<bool, int>(
       first: GlobalValues.flagDarkTheme,
       second: GlobalValues.flagCustomTheme,
@@ -40,6 +51,8 @@ class MyApp extends StatelessWidget {
         ThemeData theme;
         if (flagdt) { // Si es modo oscuro - // 1-0
           theme = ThemeSettings.darkTheme();
+          _preferenceService.saveIfDarkTheme(true);
+          _preferenceService.saveIfCustomTheme(false);
         } else { // Si es modo claro o personalizado
           if (flagct > 0) { // Modo personalizado - // 0-1
             theme = ThemeSettings.customTheme(
@@ -49,8 +62,13 @@ class MyApp extends StatelessWidget {
               fontFamily: GlobalValues.customFontFamily.value != null ? GlobalValues.customFontFamily.value! : 'Roboto', // Ajusta según sea necesario
               baseTheme: ThemeSettings.darkTheme()
             );
+            _preferenceService.saveThemeSettings();
+            _preferenceService.saveIfDarkTheme(false);
+            _preferenceService.saveIfCustomTheme(true);
           } else { // Modo claro - // 0-0
             theme = ThemeSettings.lightTheme();
+            _preferenceService.saveIfDarkTheme(false);
+            _preferenceService.saveIfCustomTheme(false);
           }
         }
         return ChangeNotifierProvider(

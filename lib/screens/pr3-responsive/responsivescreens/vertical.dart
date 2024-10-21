@@ -209,7 +209,16 @@ class _VerticalState extends State<Vertical> {
               ),
             )
           :
-            Text(
+          widget.index != null && widget.index == 2 ?
+          Column(
+            children: [
+                numberCounter('34', 'Bebés silvestres nacidos'),
+                numberCounter('533', 'Orangutanes liberados en selvas seguras'),
+                numberCounter('465,265', 'Hectáreas de selva bajo nuestro cuidado'),
+            ],
+          )
+          :
+          Text(
               widget.content.description!,
               textAlign: TextAlign.center,
               style: GoogleFonts.getFont(
@@ -217,7 +226,7 @@ class _VerticalState extends State<Vertical> {
                 fontSize: 16,
                 //color: Colors.grey
               ),
-            )
+            ),
         ],
       ),
     );
@@ -252,6 +261,39 @@ class _VerticalState extends State<Vertical> {
             ),
         ),
         ),
+    );
+  }
+
+  Widget numberCounter(number, text) {
+    return Column(
+      children: [
+        IntrinsicWidth(
+          child: Container(
+            color: Theme.of(context).primaryColor,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Center(
+                child: Text(
+                  '${number}',
+                  style: TextStyle(
+                    fontSize: 32,
+                    //color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 3),
+        Text(
+          text,
+          style: GoogleFonts.getFont(
+            widget.currentFont != null ? widget.currentFont! : 'Roboto',
+          ), // Aplicar fuente de muestra
+        ),
+        SizedBox(height: 10),
+      ],
     );
   }
 }

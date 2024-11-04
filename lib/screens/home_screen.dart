@@ -138,6 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: Icon(Icons.movie),
             trailing: Icon(Icons.chevron_right),
           ),
+          ListTile(
+            onTap: () => Navigator.pushNamed(context, '/firebasemovies'),
+            title: Text('Popular Movies Firebase'),
+            subtitle: Text('Mbappe'),
+            leading: Icon(Icons.movie),
+            trailing: Icon(Icons.chevron_right),
+          ),
         ],
       ),
     );

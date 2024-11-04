@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pmsn2024b/firebase_options.dart';
+import 'package:pmsn2024b/movies_screen_firebase.dart';
 import 'package:pmsn2024b/provider/test_provider.dart';
 import 'package:pmsn2024b/screens/coffeeChallenge/yakult_screen.dart';
 import 'package:pmsn2024b/screens/components/camera_screen.dart';
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
               "/popmovies": (context) => PopularScreen(),
               "/popdetails": (context) => DetailPopularScreen(),
               "/register": (context) => RegisterScreen(),
+              "/firebasemovies": (context) => MoviesScreenFirebase(),
             },
           ),
         );

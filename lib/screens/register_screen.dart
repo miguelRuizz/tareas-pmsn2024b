@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pmsn2024b/firebase/email_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,6 +12,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final conUser = TextEditingController();
   final conEmail = TextEditingController();
   final conPwd = TextEditingController();
+  EmailAuth auth = new EmailAuth();
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             foregroundColor: Colors.white, // Azul oscuro
           ),
           onPressed: () {
-            setState(() {});
+            //isLoading = true;
+            auth.createUser(conUser.text, conEmail.text, conPwd.text).then(
+              (value) { // Value = valor que regresa la función
+                //value ? isLoading = false : isLoading;
+                setState(() {});
+              }
+            );
+            
             Navigator.pushNamed(context, "/register");
           },
           child: const Text('Registrarse')),

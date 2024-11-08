@@ -10,6 +10,7 @@ class PopularMovieDao {
   String title;
   double voteAverage;
   int voteCount;
+  bool isFavorite;
 
   PopularMovieDao({
     required this.backdropPath,
@@ -23,6 +24,7 @@ class PopularMovieDao {
     required this.title,
     required this.voteAverage,
     required this.voteCount,
+    this.isFavorite = false,
   });
 
   factory PopularMovieDao.fromMap(Map<String,dynamic> popular){
@@ -37,7 +39,7 @@ class PopularMovieDao {
       releaseDate: popular['release_date'], 
       title: popular['title'], 
       voteAverage: popular['vote_average'], 
-      voteCount: popular['vote_count']
+      voteCount: popular['vote_count'],
     );
   }
 }

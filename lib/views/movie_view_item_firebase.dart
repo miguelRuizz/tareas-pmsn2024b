@@ -5,6 +5,7 @@ import 'package:pmsn2024b/firebase/movies_firebase.dart';
 import 'package:pmsn2024b/models/moviesdao.dart';
 import 'package:pmsn2024b/settings/global_values.dart';
 import 'package:pmsn2024b/views/movie_view.dart';
+import 'package:pmsn2024b/views/movie_view_firebase.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:wolt_modal_sheet/wolt_modal_sheet.dart';
@@ -61,7 +62,10 @@ class _MovieViewItemState extends State<MovieViewItemFirebase> {
                   context: context,
                   pageListBuilder: (context) => [
                     WoltModalSheetPage(
-                      child: MovieView(moviesDAO: widget.moviesDAO)
+                      child: //MovieView(moviesDAO: widget.moviesDAO)
+                        MovieViewFirebase(
+                          moviesDAO: widget.moviesDAO, Uuid: widget.Uuid
+                        ),
                     )
                   ],
                 );

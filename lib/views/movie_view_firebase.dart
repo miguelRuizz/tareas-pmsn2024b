@@ -9,10 +9,13 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:toastification/toastification.dart';
 
 class MovieViewFirebase extends StatefulWidget {
-  MovieViewFirebase({super.key, this.moviesDAO});
-
+  final String? Uuid;
+  MovieViewFirebase({
+    super.key,
+    this.moviesDAO,
+    this.Uuid
+  });
   MoviesDAO? moviesDAO;
-
   @override
   State<MovieViewFirebase> createState() => _MovieViewFirebaseState();
 }
@@ -107,30 +110,30 @@ class _MovieViewFirebaseState extends State<MovieViewFirebase> {
             );
           });
         } else {
-          // dbMovies!.UPDATE({
-          //   'idMovie': widget.moviesDAO!.idMovie,
-          //   'nameMovie': conName.text,
-          //   'overview': conOverview.text,
-          //   'imgMovie': conImgMovie.text,
-          //   'releaseDate': conRelease.text,
-          // }, widget.moviesDAO!.idMovie).then((value){
-          //   final msj;
-          //   QuickAlertType type;
-          //   if(value) {
-          //     type = QuickAlertType.success;
-          //     msj = 'Transaction Completed Successfully!';
-          //   } else {
-          //     type = QuickAlertType.error;
-          //     msj = 'Something was wrong!';
-          //   }
-          //   return QuickAlert.show(
-          //     context: context,
-          //     type: type,
-          //     text: msj,
-          //     autoCloseDuration: const Duration(seconds: 2),
-          //     showConfirmBtn: true
-          //   );
-          // });
+          dbMovies!.UPDATE({
+            'idMovie': widget.moviesDAO!.idMovie,
+            'nameMovie': conName.text,
+            'overview': conOverview.text,
+            'imgMovie': conImgMovie.text,
+            'releaseDate': conRelease.text,
+          }, widget.Uuid!.toString()).then((value){
+            final msj;
+            QuickAlertType type;
+            if(value) {
+              type = QuickAlertType.success;
+              msj = 'Transaction Completed Successfully!';
+            } else {
+              type = QuickAlertType.error;
+              msj = 'Something was wrong!';
+            }
+            return QuickAlert.show(
+              context: context,
+              type: type,
+              text: msj,
+              autoCloseDuration: const Duration(seconds: 2),
+              showConfirmBtn: true
+            );
+          });
         }
       },
       style: ElevatedButton.styleFrom(

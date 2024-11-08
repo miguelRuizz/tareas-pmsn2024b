@@ -11,6 +11,7 @@ import 'package:pmsn2024b/screens/detail_popular_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
 import 'package:pmsn2024b/screens/movies_screen.dart';
+import 'package:pmsn2024b/screens/popular_favorites_screen.dart';
 import 'package:pmsn2024b/screens/popular_screen.dart';
 import 'package:pmsn2024b/screens/pr3-responsive/onboarding_screen.dart';
 import 'package:pmsn2024b/screens/profile_screen.dart';
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
               "/pr3-responsive": (context) => OnboardingScreen(),
               "/popmovies": (context) => PopularScreen(),
               "/popdetails": (context) => DetailPopularScreen(),
+              "/popfavmovies": (context) => PopularFavoritesScreen(),
               "/register": (context) => RegisterScreen(),
               "/firebasemovies": (context) => MoviesScreenFirebase(),
             },

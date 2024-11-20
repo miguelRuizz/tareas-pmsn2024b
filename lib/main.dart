@@ -10,6 +10,7 @@ import 'package:pmsn2024b/screens/components/double_valuelisten.dart';
 import 'package:pmsn2024b/screens/detail_popular_screen.dart';
 import 'package:pmsn2024b/screens/home_screen.dart';
 import 'package:pmsn2024b/screens/login_screen.dart';
+import 'package:pmsn2024b/screens/maps_screen.dart';
 import 'package:pmsn2024b/screens/movies_screen.dart';
 import 'package:pmsn2024b/screens/popular_favorites_screen.dart';
 import 'package:pmsn2024b/screens/popular_screen.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
               "/popmovies": (context) => PopularScreen(),
               "/popdetails": (context) => DetailPopularScreen(),
               "/popfavmovies": (context) => PopularFavoritesScreen(),
+              "/gmaps": (context) => MapSample(),
               "/register": (context) => RegisterScreen(),
               "/firebasemovies": (context) => MoviesScreenFirebase(),
             },

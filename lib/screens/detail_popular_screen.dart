@@ -126,21 +126,24 @@ class _DetailPopularScreenState extends State<DetailPopularScreen> {
                   ),
                 ),
                 SizedBox(height: 10,),
-                // FutureBuilder(
-                //   future: popularApi!.getMovieComments(popular.id), 
-                //   builder: (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                //     if (snapshot.connectionState == ConnectionState.waiting) {
-                //       return Center(child: CircularProgressIndicator()); // Muestra un indicador de carga mientras esperamos
-                //     } else if (snapshot.hasError) {
-                //       return Center(child: Text('Error: ${snapshot.error}'));
-                //     } else if (snapshot.hasData) {
-                //       final comment = snapshot.data!;
-                //       return Text('');//movieCast(cast);
-                //     } else {
-                //       return Center(child: Text('No data available'));
-                //     }
-                //   }
-                // ),
+                FutureBuilder<List<Comment>>(
+                  future: popularApi != null ? popularApi!.getMovieComments(popular.id) : null, 
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator()); // Muestra un indicador de carga mientras esperamos
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (snapshot.hasData) {
+                      // final comment = snapshot.data!;
+                      // return Text('');//movieCast(cast);
+                      final comments = snapshot.data!;
+                      // Aquí renderizas el widget que necesita los comentarios
+                      return comment(comments);
+                    } else {
+                      return Center(child: Text('No data available'));
+                    }
+                  }
+                ),
               ],
             ),
           ),
@@ -188,6 +191,65 @@ class _DetailPopularScreenState extends State<DetailPopularScreen> {
           autoPlayInterval: Duration(seconds: 3), // Intervalo de cambio de imágenes
         ),
       )
+    );
+  }
+
+  Widget comment(comments) {
+    return CommentTreeWidget<Comment, Comment>(
+      comments.first, // Asumiendo que el primero es el comentario raíz
+      [], // Respuestas al comentario raíz
+      treeThemeData: TreeThemeData(lineColor: Colors.grey, lineWidth: 2),
+      avatarRoot: (context, data) => PreferredSize(
+        preferredSize: Size(100, 100),
+        child: CircleAvatar(
+          backgroundImage: NetworkImage('https://image.tmdb.org/t/p/w500/${comments.first.avatar!}'),
+        ),
+      ),
+      avatarChild: (context, data) => PreferredSize(
+        preferredSize: Size(100, 100),
+        child: CircleAvatar(
+          backgroundImage: NetworkImage(''),
+        ),
+      ),
+      contentRoot: (context, data) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.userName!,
+                    style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black)
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    '${data.content}',
+                    style: TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+      contentChild: (context, data) {
+        return Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(data.content!),
+        );
+      },
     );
   }
 }

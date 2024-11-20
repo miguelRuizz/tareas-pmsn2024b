@@ -1,5 +1,5 @@
+import 'package:comment_tree/data/comment.dart';
 import 'package:dio/dio.dart';
-import 'package:pmsn2024b/models/comment.dart';
 import 'package:pmsn2024b/models/popular_moviedao.dart';
 
 class PopularApi {
@@ -109,11 +109,9 @@ class PopularApi {
     // Mapea los resultados de la API en objetos de tipo Comment
     return results.map((data) {
       return Comment(
-        id: data['id'],
-        username: data['author'],
+        userName: data['author'],
         content: data['content'],
-        avatarPath: data['author_details']['avatar_path'] ?? '',
-        rating: data['author_details']['rating'],
+        avatar: data['author_details']['avatar_path'] ?? '',
       );
     }).toList();
   }

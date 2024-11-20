@@ -145,6 +145,13 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: Icon(Icons.movie),
             trailing: Icon(Icons.chevron_right),
           ),
+          ListTile(
+            onTap: () => Navigator.pushNamed(context, '/gmaps'),
+            title: Text('Gugul Maps'),
+            subtitle: Text('Verstappen'),
+            leading: Icon(Icons.map),
+            trailing: Icon(Icons.chevron_right),
+          ),
         ],
       ),
     );
